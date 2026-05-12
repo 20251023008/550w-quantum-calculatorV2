@@ -1,0 +1,79 @@
+# 550W超级量子计算机 - 构建指南
+
+## 项目概述
+本项目是一个具有 cyberpunk/sci-fi 风格高科技感的 Android 计算器应用，使用 Kotlin + Jetpack Compose 开发。
+
+## GitHub Actions 自动构建 ✅
+项目已配置 GitHub Actions 工作流 (`/.github/workflows/build-apk.yml`)，可在 **无需任何本地环境** 的情况下自动构建 APK。
+
+### 使用方法
+1. 将项目上传到 GitHub 仓库
+2. 推送到 `main` 分支，或在 GitHub Actions 页面手动触发
+3. 构建完成后，在 Actions Artifacts 中下载 `550W-Quantum-Calculator-debug.apk`
+
+## 项目结构
+```
+550WQuantumComputer/
+├── .github/workflows/build-apk.yml  # GitHub Actions 自动构建配置
+├── app/
+│   ├── src/main/
+│   │   ├── java/com/a550w/quantumcomputer/
+│   │   │   ├── CalculatorScreen.kt    # 计算器主界面
+│   │   │   ├── ComputingScreen.kt      # 计算中过渡界面
+│   │   │   ├── CyberColors.kt         # 高科技色彩配置
+│   │   │   ├── CyberNavigation.kt      # 导航控制
+│   │   │   ├── CyberTheme.kt          # Compose 主题
+│   │   │   ├── ErrorScreen.kt         # 错误提示界面
+│   │   │   ├── HandCountingScreen.kt  # 手掌数数界面
+│   │   │   ├── MainActivity.kt        # 主入口
+│   │   │   ├── ScanlineEffect.kt      # 扫描线动画效果
+│   │   │   ├── Screen.kt              # 屏幕路由定义
+│   │   │   └── SplashScreen.kt        # 启动页
+│   │   ├── res/
+│   │   └── AndroidManifest.xml
+│   └── build.gradle.kts
+├── gradle/wrapper/
+├── build.gradle.kts
+├── settings.gradle.kts
+├── gradle.properties
+├── gradlew
+└── gradlew.bat
+```
+
+## 功能特性
+1. **启动页** - 显示"由盘古超级AI大模型开发"，2秒后跳转
+2. **计算器界面** - 高科技风计算器，仅接受 `[0-9][+-][0-9]` 格式
+3. **计算过渡页** - 打字机动画显示"已成功驱动550W超级量子计算器"
+4. **手掌数数界面** - 逐个点亮手指动画，配合 TTS 中文语音播报
+5. **错误界面** - 栈溢出错误警告（非法输入或结果超出范围）
+
+## 本地构建要求
+- JDK 17+
+- Android SDK (API 34)
+- Gradle 8.2
+
+## 本地构建步骤
+
+### 1. 生成调试密钥库（如需要）
+```bash
+cd app
+keytool -genkey -v -keystore debug.keystore -alias androiddebugkey \
+  -keyalg RSA -keysize 2048 -validity 10000 \
+  -storepass android -keypass android \
+  -dname "CN=Android Debug,O=Android,C=US"
+```
+
+### 2. 构建 Debug APK
+```bash
+./gradlew assembleDebug
+```
+
+### 3. APK 输出位置
+- Debug: `app/build/outputs/apk/debug/app-debug.apk`
+
+## 技术特性
+- 完全离线运行，不申请任何权限
+- Jetpack Compose Navigation 页面导航
+- 自定义 Material3 深色主题
+- animate*AsState 动画效果
+- Android TextToSpeech 中文语音播报
