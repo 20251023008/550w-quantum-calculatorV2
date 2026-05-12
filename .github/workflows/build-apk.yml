@@ -1,0 +1,29 @@
+name: Build 550W Quantum Calculator APK
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+      
+      - name: Find project directory
+        run: find . -name "gradlew" -type f | head -1 | sed 's/\/gradlew$//' > project_dir.txt
+      
+      - name: Build debug APK
+        run: |
+          PROJECT_DIR=$(cat project_dir.txt)
+          cd "$PROJECT_DIR"
+          chmod +x ./gradlew
+          ./gradlew assembleDebug
+      
+      - name: Upload APK as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: 550W-Quantum-Calculator-debug
+          path: "**/app/build/outputs/apk/debug/app-debug.apk"
