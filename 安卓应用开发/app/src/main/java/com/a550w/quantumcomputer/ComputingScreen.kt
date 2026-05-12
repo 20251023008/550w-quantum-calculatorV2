@@ -1,5 +1,5 @@
 package com.a550w.quantumcomputer
-
+import androidx.compose.ui.draw.shadow
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
